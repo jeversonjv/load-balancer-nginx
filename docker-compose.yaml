@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  server1:
+    build:
+      context: ./server1
+      dockerfile: Dockerfile
+    container_name: server1
+    volumes:
+      - /app/node_modules
+    ports:
+      - "3001:3001"
+
+  server2:
+    build:
+      context: ./server2
+      dockerfile: Dockerfile
+    container_name: server2
+    volumes:
+      - /app/node_modules
+    ports:
+      - "3002:3002"
+
+  server3:
+    build:
+      context: ./server3
+      dockerfile: Dockerfile
+    container_name: server3
+    volumes:
+      - /app/node_modules
+    ports:
+      - "3003:3003"
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - server1
+      - server2
+      - server3
